@@ -80,3 +80,14 @@ Array.prototype.customFlat = function(depth) {
 
 c = [1, [2,3] ,[4,[5,6,[7,[8,9]]]], [6,7,8,9]];
 console.log(c.customFlat(1));
+
+Array.prototype.customReduce = function customReduce(cb){
+	let acc;
+  for(var i=0; i < this.length; i++){
+    acc = cb(acc, this[i]);
+	}
+	
+	return acc;
+}
+
+console.log(b.reduce((acc, cur) => acc + cur));
