@@ -83,8 +83,8 @@ console.log(c.customFlat(1));
 
 Array.prototype.customReduce = function customReduce(cb){
 	let acc;
-  for(var i=0; i < this.length; i++){
-    acc = cb(acc, this[i]);
+	for(var i=0; i < this.length; i++){
+		acc = cb(acc, this[i]);
 	}
 	
 	return acc;
