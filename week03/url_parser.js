@@ -14,6 +14,7 @@ Url.prototype.lexer = function (tokens) {
 	let lexedTokens = tokens;
 	const hasPort = (tokens && tokens.length > 2 && tokens[2] && Number.isInteger(Number(tokens[2])));
 	const hasSearch = tokens[tokens.length -1].includes('?');
+
 	lexedTokens = lexedTokens.flatMap(e => e.split('?')).filter(e => e);
 
 	return {
@@ -46,3 +47,14 @@ Url.prototype.parseUrl = function (urlString) {
 const myUrl = new Url('http://www.goolge.com:8080/root/sub/resource.html?p1=v1&p2=v2');
 
 console.log(myUrl)
+
+/*
+myUrl = Url {
+  protocol: 'http:',
+  hostname: 'www.goolge.com',
+  host: 'www.goolge.com:8080',
+  port: 8080,
+  search: '?p1=v1&p2=v2',
+  pathname: '/root/sub/resource.html'
+}
+ */
