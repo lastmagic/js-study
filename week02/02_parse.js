@@ -48,3 +48,17 @@ _.forEach(parsedData2, e => {
         }
     });
 })
+
+const assert = exception => {
+    if (!exception) {
+        throw 'This value is false';
+    }
+
+    return true;
+}
+
+const expect = (val, eq) => {
+    assert(val === eq);
+}
+
+expect((function(a, b) { return a + b;})(2,4), 6)
