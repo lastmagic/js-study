@@ -17,7 +17,7 @@ Url.prototype.lexer = function (tokens) {
 	lexedTokens = lexedTokens.flatMap(e => e.split('?')).filter(e => e);
 
 	return {
-		tokens,
+		tokens: lexedTokens,
 		hasPort,
 		hasSearch,
 	};
