@@ -1,4 +1,4 @@
-const htmlString = '<html><head><title>test</title></head><body><span>TEST <a href="http://someLink.com">go to <span>somewhere</span></a>span</span></body></html>';
+const htmlString = '<html><head><title>test</title></head><body><span>TEST <a href="http://someLink.com">go to <span>somewhere<br/></span></a>span</span></body></html>';
 
 function Dom(htmlString) {
   this.dom = this.parseHtml(htmlString);
@@ -66,18 +66,27 @@ Dom.prototype.parseHtml = (htmlString) => {
     return tagString.endsWith('/') && domStack[domStack.length - 1].tagName !== tagString
   }
 
+  const appendChildNode = (childElement) => {
+    const parentElement = domStack.pop();
+    parentElement.children.push(childElement);
+    domStack.push(parentElement);
+  };
+
   const makeDom = () => {
     for (let i=0; i<htmlString.length; i++) {
       if (htmlString[i] === '<') {
         const tag = readStringUtilClosingTag(i);
         
-        if (!isClosingTag(tag) || isSelfClosingTag(tag)) {
+        if (!isClosingTag(tag)) {
           domStack.push(makeObj(i));
+
+          if (isSelfClosingTag(tag)) {
+            const childElement = domStack.pop();
+            appendChildNode(childElement);
+          }
         } else {
           const childElement = domStack.pop();
-          const parentElement = domStack.pop();
-          parentElement.children.push(childElement);
-          domStack.push(parentElement);
+          appendChildNode(childElement);
         }
       } else if (htmlString[i] === '>' && htmlString[i+1] !== '<' && i+1 !==htmlString.length) {
         const tag = readStringUtilOpenTag(i);
@@ -85,9 +94,7 @@ Dom.prototype.parseHtml = (htmlString) => {
           type: 'textNode',
           value: tag,
         };
-        const parentElement = domStack.pop();
-        parentElement.children.push(childElement);
-        domStack.push(parentElement);
+        appendChildNode(childElement);
       }
     }
     return domStack[0];
