@@ -1,7 +1,7 @@
 const htmlString = '<html><head><title>test</title></head><body><span>TEST <a href="http://someLink.com">go to <span>somewhere</span></a>span</span></body></html>';
 
 function Dom(htmlString) {
-  this.parseHtml(htmlString);
+  this.dom = this.parseHtml(htmlString);
 }
 
 Dom.prototype.parseHtml = (htmlString) => {
@@ -90,11 +90,10 @@ Dom.prototype.parseHtml = (htmlString) => {
         domStack.push(parentElement);
       }
     }
+    return domStack[0];
   }
-
-  makeDom();
-  console.log(JSON.stringify(domStack[0]))
+  return makeDom();
 }
 
 const myDom = new Dom(htmlString);
-console.log(myDom)
+console.log(JSON.stringify(myDom.dom))
